@@ -1,0 +1,11 @@
+{
+  "@@locale": "ru",
+  "loginTitle": "Вход для студентов",
+  "email": "Почта",
+  "password": "Пароль",
+  "loginButton": "Войти",
+  "loginFailed": "Ошибка входа",
+  "sessionTitle": "Сессия",
+  "summaryTitle": "Итоги сессий",
+  "sessionX": "Сессия {number}"
+}
