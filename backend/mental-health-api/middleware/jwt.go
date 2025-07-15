@@ -7,6 +7,6 @@ import (
 
 func JWTProtected() fiber.Handler {
 	return jwtware.New(jwtware.Config{
-		SigningKey: []byte(""),
+		SigningKey: []byte("Mental Health"),
 	})
 }
