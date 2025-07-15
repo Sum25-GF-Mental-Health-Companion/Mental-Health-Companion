@@ -4,7 +4,12 @@ go 1.24.3
 
 require github.com/gofiber/fiber/v2 v2.52.8
 
-require github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
+require (
+	github.com/go-resty/resty/v2 v2.16.5 // indirect
+	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
+	github.com/joho/godotenv v1.5.1 // indirect
+	golang.org/x/net v0.41.0 // indirect
+)
 
 require (
 	github.com/andybalholm/brotli v1.1.0 // indirect

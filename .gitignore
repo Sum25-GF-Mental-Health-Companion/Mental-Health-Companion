@@ -1,0 +1,3 @@
+# Environment variables
+.env
+backend/mental-health-api/.env
