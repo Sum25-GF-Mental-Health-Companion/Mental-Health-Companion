@@ -12,13 +12,14 @@ type Session struct {
 }
 
 type Message struct {
-	SessionID string
-	Sender    string
-	Content   string
+	// SessionID string `json:"session_id,omitempty"`
+	// Sender  string `json:"sender"`
+	// Content string `json:"content"`
+	Content string `json:"message"`
 }
 
 type Summary struct {
-	SessionID         string
-	FullSummary       string
-	CompressedSummary string
+	// SessionID         string `json:"session_id,omitempty"`
+	FullSummary       string `json:"full_summary"`
+	CompressedSummary string `json:"compressed_summary"`
 }

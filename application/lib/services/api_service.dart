@@ -46,7 +46,7 @@ class ApiService {
     );
 
     if (response.statusCode == 200) {
-      final data = jsonDecode(response.body) as List;
+      final data = jsonDecode(response.body)['sessions'] as List;
       return data.map((item) => item['compressed_summary'] as String).toList();
     }
 
