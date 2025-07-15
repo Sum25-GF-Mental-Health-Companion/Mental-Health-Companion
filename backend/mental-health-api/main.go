@@ -22,7 +22,7 @@ func main() {
 	app := fiber.New()
 	app.Use(logger.New())
 
-	database.Connect()
+	database.InitDatabase()
 
 	api := app.Group("/api")
 
