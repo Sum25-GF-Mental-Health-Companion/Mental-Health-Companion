@@ -1,0 +1,11 @@
+{
+  "@@locale": "en",
+  "loginTitle": "Login as Student",
+  "email": "Email",
+  "password": "Password",
+  "loginButton": "Login",
+  "loginFailed": "Login failed",
+  "sessionTitle": "Session",
+  "summaryTitle": "Session Summaries",
+  "sessionX": "Session {number}"
+}
