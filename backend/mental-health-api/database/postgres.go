@@ -24,12 +24,12 @@ func InitDatabase() {
 	var err error
 	DB, err = sql.Open("pgx", dsn)
 	if err != nil {
-		log.Fatalf("❌ Failed to open DB: %v", err)
+		log.Fatalf("Failed to open DB: %v", err)
 	}
 
 	if err = DB.PingContext(context.Background()); err != nil {
-		log.Fatalf("❌ Failed to ping DB: %v", err)
+		log.Fatalf("Failed to ping DB: %v", err)
 	}
 
-	log.Println("✅ Connected to PostgreSQL using pgx/sqlc")
+	log.Println("Connected to PostgreSQL using pgx/sqlc")
 }

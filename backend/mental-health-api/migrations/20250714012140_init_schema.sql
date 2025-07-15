@@ -1,3 +1,4 @@
+-- +goose Up
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     email TEXT UNIQUE NOT NULL,
@@ -16,7 +17,7 @@ CREATE TABLE sessions (
 CREATE TABLE messages (
     id SERIAL PRIMARY KEY,
     session_id INTEGER REFERENCES sessions(id),
-    sender TEXT NOT NULL, -- 'user' or 'ai'
+    sender TEXT NOT NULL,
     content TEXT NOT NULL,
     timestamp TIMESTAMPTZ DEFAULT now()
 );
@@ -26,3 +27,9 @@ CREATE TABLE summaries (
     full_summary TEXT,
     compressed_summary TEXT
 );
+
+-- +goose Down
+DROP TABLE IF EXISTS summaries;
+DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS sessions;
+DROP TABLE IF EXISTS users;
