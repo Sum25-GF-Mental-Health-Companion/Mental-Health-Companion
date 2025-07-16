@@ -105,7 +105,7 @@ jobs:
         run: flutter pub get
 
       - name: Build Flutter web
-        run: flutter build web --release
+        run: flutter build web --release --base-href="/Mental-Health-Companion/"
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
