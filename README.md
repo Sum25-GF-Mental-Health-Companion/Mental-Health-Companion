@@ -185,7 +185,7 @@ This diagram illustrates the real-time communication workflow from the moment a 
 - [X] Go-based backend (3 points)
   * Check the Go backend component at [backend/mental-health-api](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/backend/mental-health-api)
 - [X] RESTful API with Swagger documentation (1 point)
-  * You can see API ducomentataion and link to Swagger documentation above in the section "API documentation".
+  * You can see API ducomentataion and link to Swagger documentation above in the [📡 API Documentation](#api-documentation) section.
 - [X] PostgreSQL database with proper schema design (1 point)
   * Check the database files at [backend/mental-health-api/database](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/backend/mental-health-api/database)
 - [X] JWT-based authentication and authorization (1 point)
@@ -223,18 +223,24 @@ This diagram illustrates the real-time communication workflow from the moment a 
 
 #### Documentation (4 points)
 - [x] Project overview and setup instructions (1 point)
+  * Instructions can be found in the [🛠️ Setup Instructions](#setup-instructions) section
 - [ ] Screenshots and GIFs of key features (1 point)
 - [x] API documentation (1 point)
+  * Detailed documentation can be found in the [📡 API Documentation](#api-documentation) section
 - [x] Architecture diagrams and explanations (1 point)
 
 #### Code quality (2 points)
 - [x] Consistent code style and formatting during CI/CD pipeline (1 point)
+  * Code style and practices are following the best practices learned in the course
 - [ ] Code review participation and resolution (1 point)
 
 ### Bonus Features (up to 10 points)
 - [x] Localization for Russian (RU) and English (ENG) languages (2 points)
+  * Language packages can be found in [application/lib/l10n](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/main/application/lib/l10n) directory
 - [x] Good UI/UX design (up to 3 points)
+  * Stunning, minimalistic, and, most important, simple user interface
 - [x] Integration with external APIs (fitness trackers, health devices) (up to 5 points)
+  * [ProxyAPI](https://proxyapi.ru/) was integrated in the project _(Ollama API is anticipated to be integrated in future builds)_
 - [ ] Comprehensive error handling and user feedback (up to 2 points)
 - [ ] Advanced animations and transitions (up to 3 points)
 - [ ] Widget implementation for native mobile elements (up to 2 points)
