@@ -14,7 +14,7 @@ type MessageResponse struct {
 	Response string `json:"response"`
 }
 
-func NewMessageHandler(llmClient *llm.LLMClient) http.HandlerFunc {
+func NewMessageHandler(llmClient llm.LLM) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req MessageRequest
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
