@@ -70,7 +70,7 @@ flutter pub get
 flutter run -d chrome  # or your preferred device
 ```
 
-## 🖼️ Features in screenshots
+## 🖼️ Features in Screenshots
 #### Login Screen
 
 #### Chat with AI
@@ -210,24 +210,37 @@ This diagram illustrates the real-time communication workflow from the moment a 
 
 #### DevOps & deployment (4 points)
 - [x] Docker compose for all services (1 point)
+  * We have Docker compose for all backend services. See our docker files at:
+    * [backend/mental-health-api/Dockerfile](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/blob/3d10ae5913dcc7de7d238fa61467f5997138a4ec/backend/mental-health-api/Dockerfile)
+    * [backend/mental-health-api/docker-compose.yml](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/blob/3d10ae5913dcc7de7d238fa61467f5997138a4ec/backend/mental-health-api/docker-compose.yml)
 - [x] CI/CD pipeline implementation (1 point)
+  * We added CI/CD pipeline, you can check its presence in actions and you can find workflows configs at [.github/workflows](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/51f3c92a45d297d9a9b29698b8670ec8ddf5153d/.github/workflows)
 - [x] Environment configuration management using config files (1 point)
+  * You cannot find .env file in this repository, because we added it to secrets.
 - [ ] GitHub pages for the project (1 point)
 
 ### Non-Technical Requirements (10 points)
 #### Project management (4 points)
 - [x] GitHub organization with well-maintained repository (1 point)
+  * You are here and you can check this.
 - [x] Regular commits and meaningful pull requests from all team members (1 point)
-- [ ] Project board (GitHub Projects) with task tracking (1 point)
+  * All of our team members contributed to the project and made commits. You can check list of contributors (one of our guys has two accounts).
+- [x] Project board (GitHub Projects) with task tracking (1 point)
+  * You can check our project board at [Mental-Health-Companion Project board](https://github.com/orgs/Sum25-GF-Mental-Health-Companion/projects/1/views/1?system_template=team_planning)
 - [x] Team member roles and responsibilities documentation (1 point)
+  * Check section "Team" above
 
 #### Documentation (4 points)
 - [x] Project overview and setup instructions (1 point)
+  * You can find overview and setup instructions in the sections "Overview" and "Setup instructions" above.
+- [x] Screenshots and GIFs of key features (1 point)
+  * You can find link to screenshots of most relevant screens and features in the section "Features in Screenshots" above
   * Instructions can be found in the [🛠️ Setup Instructions](#setup-instructions) section
 - [ ] Screenshots and GIFs of key features (1 point)
 - [x] API documentation (1 point)
-  * Detailed documentation can be found in the [📡 API Documentation](#api-documentation) section
+  * Detailed API documentation can be found in the [📡 API Documentation](#api-documentation) section
 - [x] Architecture diagrams and explanations (1 point)
+  * You can find links to architecture diagrams (static and dynamic) and their explanations in the section "Architecture" above.
 
 #### Code quality (2 points)
 - [x] Consistent code style and formatting during CI/CD pipeline (1 point)
