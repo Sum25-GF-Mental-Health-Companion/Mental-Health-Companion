@@ -29,6 +29,12 @@ func main() {
 	database.InitDatabase()
 	handlers.SetDB(database.DB)
 
+	app.Static("/docs", "../../docs/architecture")
+
+	app.Get("/docs", func(c *fiber.Ctx) error {
+		return c.SendFile("../../docs/architecture/index.html")
+	})
+
 	auth := app.Group("/auth")
 	auth.Post("/register", handlers.Register)
 	auth.Post("/login", handlers.Login)

@@ -24,9 +24,11 @@ type Session struct {
 }
 
 type Summary struct {
+	ID                int32          `json:"id"`
 	SessionID         int32          `json:"session_id"`
 	FullSummary       sql.NullString `json:"full_summary"`
 	CompressedSummary sql.NullString `json:"compressed_summary"`
+	CreatedAt         sql.NullTime   `json:"created_at"`
 }
 
 type User struct {
