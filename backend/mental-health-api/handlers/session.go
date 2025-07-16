@@ -1,21 +1,24 @@
 package handlers
 
 import (
-<<<<<<< HEAD
-	"mental-health-api/models"
-	"strconv"
-
-	"time"
-=======
+	"database/sql"
+	"log"
+	"mental-health-api/database/queries"
 	"mental-health-api/internal/llm"
->>>>>>> b00b55ae22b3329db506b9652771c063bab2b00b
+	"strconv"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/google/uuid"
 )
 
 var llmClient = llm.NewLLMClient()
+
+var db *sql.DB
+
+func SetDB(database *sql.DB) {
+	db = database
+}
 
 func Register(c *fiber.Ctx) error {
 	var input struct {
@@ -23,52 +26,68 @@ func Register(c *fiber.Ctx) error {
 		Password string `json:"password"`
 	}
 
-	if err := c.BodyParser(&input); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": "invalid input",
-		})
+	if err := c.BodyParser(&input); err != nil || input.Email == "" || input.Password == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid input"})
 	}
 
-	if input.Email == "" || input.Password == "" {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": "email and password are required",
-		})
+	q := queries.New(db)
+
+	user, err := q.CreateUser(c.Context(), queries.CreateUserParams{
+		Email:          input.Email,
+		HashedPassword: input.Password,
+		StudentStatus:  sql.NullBool{Bool: true, Valid: true},
+	})
+	if err != nil {
+		log.Println(err)
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "could not create user"})
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"user_id": input.Email,
+		"user_id": user.ID,
 		"exp":     time.Now().Add(72 * time.Hour).Unix(),
 	})
 
-	signedToken, err := token.SignedString([]byte("Mental Health"))
+	signed, err := token.SignedString([]byte("mental_health"))
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": "could not sign token",
-		})
+		log.Println(err)
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "token error"})
 	}
 
-	return c.JSON(fiber.Map{"token": signedToken})
+	return c.JSON(fiber.Map{"token": signed})
 }
 
 func Login(c *fiber.Ctx) error {
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"user_id": 123,
-		"exp":     time.Now().Add(time.Hour * 72).Unix(),
-	})
-
-	signedToken, err := token.SignedString([]byte("Mental Health"))
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": "could not sign token",
-		})
+	var input struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
 	}
 
-	return c.JSON(fiber.Map{"token": signedToken})
-}
+	if err := c.BodyParser(&input); err != nil || input.Email == "" || input.Password == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid input"})
+	}
 
-func StartSession(c *fiber.Ctx) error {
-	sessionID := uuid.New().String()
-	return c.JSON(fiber.Map{"session_id": sessionID})
+	q := queries.New(db)
+
+	user, err := q.GetUserByEmail(c.Context(), input.Email)
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "user not found"})
+	}
+
+	if user.HashedPassword != input.Password {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "wrong password"})
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"user_id": user.ID,
+		"exp":     time.Now().Add(72 * time.Hour).Unix(),
+	})
+
+	signed, err := token.SignedString([]byte("mental_health"))
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "token error"})
+	}
+
+	return c.JSON(fiber.Map{"token": signed})
 }
 
 func SendMessage(c *fiber.Ctx) error {
@@ -88,6 +107,7 @@ func SendMessage(c *fiber.Ctx) error {
 		{Role: "user", Content: body.Text},
 	})
 	if err != nil {
+		log.Println(err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": "LLM error: " + err.Error(),
 		})
@@ -98,39 +118,77 @@ func SendMessage(c *fiber.Ctx) error {
 	})
 }
 
+func StartSession(c *fiber.Ctx) error {
+	user := c.Locals("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	userID := int32(claims["user_id"].(float64))
+
+	q := queries.New(db)
+
+	session, err := q.StartSession(c.Context(), sql.NullInt32{Int32: userID, Valid: true})
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "failed to start session",
+		})
+	}
+
+	return c.JSON(session)
+}
+
 func EndSession(c *fiber.Ctx) error {
 	var payload struct {
-		Messages []models.Message `json:"messages"`
+		SessionID int32             `json:"session_id"`
+		Messages  []queries.Message `json:"messages"`
 	}
 
 	if err := c.BodyParser(&payload); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid input"})
 	}
 
-	summary := models.Summary{
-		FullSummary:       "Full summary",
-		CompressedSummary: "Summary of " + strconv.Itoa(len(payload.Messages)) + " messages",
+	q := queries.New(db)
+
+	err := q.EndSession(c.Context(), payload.SessionID)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "failed to end session"})
+	}
+
+	full := "Full summary"
+	compressed := "Summary of " + strconv.Itoa(len(payload.Messages)) + " messages"
+
+	err = q.SaveSummary(c.Context(), queries.SaveSummaryParams{
+		SessionID:         payload.SessionID,
+		FullSummary:       sql.NullString{String: full, Valid: true},
+		CompressedSummary: sql.NullString{String: compressed, Valid: true},
+	})
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "failed to save summary"})
 	}
 
 	return c.JSON(fiber.Map{
-		"full_summary":       summary.FullSummary,
-		"compressed_summary": summary.CompressedSummary,
+		"full_summary":       full,
+		"compressed_summary": compressed,
 	})
 }
 
 func GetSessionHistory(c *fiber.Ctx) error {
-	history := []models.Summary{
-		{
-			// SessionID:         "1234",
-			// FullSummary:       "You talked about anxiety and routines.",
-			CompressedSummary: "Talked about anxiety.",
-		},
-		{
-			// SessionID:         "5678",
-			// FullSummary:       "Session focused on productivity and habits.",
-			CompressedSummary: "Habits & productivity.",
-		},
+	user := c.Locals("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	userID := int32(claims["user_id"].(float64))
+
+	q := queries.New(db)
+
+	sessions, err := q.GetSessionsByUser(c.Context(), sql.NullInt32{Int32: userID, Valid: true})
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "failed to fetch sessions"})
 	}
 
-	return c.JSON(fiber.Map{"sessions": history})
+	var summaries []fiber.Map
+	for _, s := range sessions {
+		summaries = append(summaries, fiber.Map{
+			"session_id":         s.ID,
+			"compressed_summary": "Session on " + s.StartedAt.Time.Format("2006-01-02 15:04"),
+		})
+	}
+
+	return c.JSON(fiber.Map{"sessions": summaries})
 }

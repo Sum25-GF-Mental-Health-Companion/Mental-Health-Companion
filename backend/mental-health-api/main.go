@@ -2,20 +2,14 @@ package main
 
 import (
 	"log"
-
-<<<<<<< HEAD
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/gofiber/fiber/v2/middleware/logger"
-
-=======
->>>>>>> b00b55ae22b3329db506b9652771c063bab2b00b
 	"mental-health-api/database"
-	_ "mental-health-api/database"
 	"mental-health-api/handlers"
 	"os"
 
+	"mental-health-api/middleware"
+
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
 )
@@ -33,6 +27,7 @@ func main() {
 	app.Use(logger.New())
 
 	database.InitDatabase()
+	handlers.SetDB(database.DB)
 
 	auth := app.Group("/auth")
 	auth.Post("/register", handlers.Register)
@@ -43,8 +38,8 @@ func main() {
 	session := app.Group("/session")
 	session.Get("/start", handlers.StartSession)
 	session.Post("/end", handlers.EndSession)
+
 	app.Post("/message", handlers.SendMessage)
-	// session.Get("/history", handlers.GetSessionHistory)
 	app.Get("/sessions", handlers.GetSessionHistory)
 
 	log.Fatal(app.Listen(":8080"))

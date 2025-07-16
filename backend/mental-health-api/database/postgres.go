@@ -6,11 +6,15 @@ import (
 	"fmt"
 	"log"
 	"os"
+
+	"github.com/pressly/goose/v3"
+
+	_ "github.com/jackc/pgx/v4/stdlib"
 )
 
 var DB *sql.DB
 
-// InitDatabase подключается к PostgreSQL с использованием pgx + database/sql
+// InitDatabase connects to PostgreSQL using pgx + database/sql
 func InitDatabase() {
 	host := os.Getenv("DB_HOST")
 	port := os.Getenv("DB_PORT")
@@ -32,4 +36,18 @@ func InitDatabase() {
 	}
 
 	log.Println("Connected to PostgreSQL using pgx/sqlc")
+
+	RunMigrations(DB, "./migrations")
+}
+
+func RunMigrations(db *sql.DB, migrationsDir string) {
+	if err := goose.SetDialect("postgres"); err != nil {
+		log.Fatalf("Goose dialect error: %v", err)
+	}
+
+	if err := goose.Up(db, migrationsDir); err != nil {
+		log.Fatalf("Failed to run migrations: %v", err)
+	}
+
+	log.Println("Migrations applied successfully")
 }
