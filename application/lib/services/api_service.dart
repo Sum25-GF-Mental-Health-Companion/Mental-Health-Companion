@@ -53,10 +53,12 @@ class ApiService {
 
     final body = jsonEncode({
       'session_id': sessionId,
-      'messages': messages.map((m) => {
-        'sender': m.sender,
-        'content': m.content,
-      }).toList(),
+      'messages': messages
+          .map((m) => {
+                'sender': m.sender,
+                'content': m.content,
+              })
+          .toList(),
     });
 
     final response = await http.post(
