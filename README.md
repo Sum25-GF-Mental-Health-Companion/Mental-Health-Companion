@@ -95,7 +95,7 @@ Base URL: http://localhost:8080 (/app)
 * History
   * GET	/sessions - Get past session summaries
 
-📘 Swagger docs available at http://localhost:8080/docs/docs
+📘 Swagger docs available at [http://localhost:8080/docs](http://10.91.56.213:8080/docs)
 
 ## 🧱 Architecture
 
