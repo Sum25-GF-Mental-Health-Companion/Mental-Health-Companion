@@ -169,7 +169,7 @@ This diagram illustrates the real-time communication workflow from the moment a 
 
 ## 🙌 Team
 * Damir - LLM integration
-* Vladimir - Flutter application
+* Vladimir - Flutter application, presentation
 * Semyon - Flutter application, CI/CD
 * Magomedgadzhi - server API
 * Pavel - Database, documentation
@@ -237,8 +237,6 @@ This diagram illustrates the real-time communication workflow from the moment a 
   * You can find overview and setup instructions in the [Overview](#overview) and [🛠️ Setup Instructions](#setup-instructions) sections.
 - [x] Screenshots and GIFs of key features (1 point)
   * You can find link to screenshots of most relevant screens and features in the section "Features in Screenshots" above
-  * Instructions can be found in the [🛠️ Setup Instructions](#setup-instructions) section
-- [ ] Screenshots and GIFs of key features (1 point)
 - [x] API documentation (1 point)
   * Detailed API documentation can be found in the [📡 API Documentation](#api-documentation) section
 - [x] Architecture diagrams and explanations (1 point)
