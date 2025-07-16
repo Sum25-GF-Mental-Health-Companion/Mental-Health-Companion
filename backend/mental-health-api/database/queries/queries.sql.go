@@ -101,6 +101,24 @@ func (q *Queries) GetSessionsByUser(ctx context.Context, userID sql.NullInt32) (
 	return items, nil
 }
 
+const getSummaryBySession = `-- name: GetSummaryBySession :one
+SELECT id, session_id, full_summary, compressed_summary, created_at FROM summaries 
+WHERE session_id = $1 LIMIT 1
+`
+
+func (q *Queries) GetSummaryBySession(ctx context.Context, sessionID int32) (Summary, error) {
+	row := q.db.QueryRowContext(ctx, getSummaryBySession, sessionID)
+	var i Summary
+	err := row.Scan(
+		&i.ID,
+		&i.SessionID,
+		&i.FullSummary,
+		&i.CompressedSummary,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const getUserByEmail = `-- name: GetUserByEmail :one
 SELECT id, email, hashed_password, student_status, created_at FROM users WHERE email = $1
 `
