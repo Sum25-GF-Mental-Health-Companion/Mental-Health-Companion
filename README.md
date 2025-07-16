@@ -27,20 +27,39 @@ A cross-platform virtual AI psychologist app tailored for students, providing ti
 
 ### 🔧 Backend Setup
 
+#### Initial Backend Configuration
+
+**Configure .env file**
+* PROXY_API_KEY - key obtained from _ProxyAPI_ website
+* PROXY_API_URL - URL to the needed model _(example: [Anthropic](https://api.proxyapi.ru/anthropic/v1))_
+* DB_HOST - DB hostname, set to ```postgres``` for simplicity
+* DB_PORT - port on which you would like to start PostgreSQL DB
+* DB_USER - PostgreSQL user, ```postgres``` by default
+* DB_PASSWORD - PostgreSQL DB password
+* DB_NAME - name of the PostgreSQL DB
+* DATABASE_URL - _optional variable_; URL to the PostgreSQL DB - set if you are going to run migrations
+
+#### Server application startup
+
+**Windows**  
 ```
 cd backend/mental-health-api
-cp .env.example .env  # configure DB and API keys
-go run main.go
-```
+docker-compose up --build -d
+cd ../../application
+flutter run
+```  
 
-OR run via Docker:
+**Unix**  
 ```
-docker-compose up --build
-```
+cd backend/mental-health-api
+sudo docker-compose up --build -d
+cd ../../application
+flutter run
+```  
 
-Apply migrations (using Goose):
+**Apply migrations using Goose**  
 ```
-goose -dir db/migrations postgres "postgres://user:pass@localhost:5432/mentalhealth?sslmode=disable" up
+goose -dir db/migrations postgres "$DATABASE_URL" up
 ```
 
 ### 📱 Frontend Setup
@@ -107,12 +126,11 @@ Paste after finishing project
 
 ## 🚀 Deployment
 * Flutter Web: Vercel / GitHub Pages
-* Backend: Railway / Render / Fly.io
-* CI/CD: GitHub Actions (Lint, Test, Docker Build/Push)
+* CI/CD: GitHub Actions (Lint, Test)
 
 ## 🙌 Team
 * Damir - LLM integration
-* Vladimir - Flutter app
-* Syoma - Flutter app + project deployment
-* Magomed - server API 
-* Pavel - Database + documentation
+* Vladimir - Flutter application
+* Semyon - Flutter application, CI/CD
+* Magomedgadzhi - server API
+* Pavel - Database, documentation
