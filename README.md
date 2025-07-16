@@ -27,20 +27,39 @@ A cross-platform virtual AI psychologist app tailored for students, providing ti
 
 ### 🔧 Backend Setup
 
+#### Initial Backend Configuration
+
+**Configure .env file**
+* ```PROXY_API_KEY``` - key obtained from _ProxyAPI_ website
+* ```PROXY_API_URL``` - URL to the needed model _(example: [Anthropic](https://api.proxyapi.ru/anthropic/v1))_
+* ```DB_HOST``` - DB hostname, set to ```postgres``` for simplicity
+* ```DB_PORT``` - port on which you would like to start PostgreSQL DB
+* ```DB_USER``` - PostgreSQL user, ```postgres``` by default
+* ```DB_PASSWORD``` - PostgreSQL DB password
+* ```DB_NAME``` - name of the PostgreSQL DB
+* ```DATABASE_URL``` - _optional variable_; URL to the PostgreSQL DB - set if you are going to run migrations
+
+#### Server application startup
+
+**Windows**  
 ```
 cd backend/mental-health-api
-cp .env.example .env  # configure DB and API keys
-go run main.go
-```
+docker-compose up --build -d
+cd ../../application
+flutter run
+```  
 
-OR run via Docker:
+**Unix**  
 ```
-docker-compose up --build
-```
+cd backend/mental-health-api
+sudo docker-compose up --build -d
+cd ../../application
+flutter run
+```  
 
-Apply migrations (using Goose):
+**Apply migrations using Goose**  
 ```
-goose -dir db/migrations postgres "postgres://user:pass@localhost:5432/mentalhealth?sslmode=disable" up
+goose -dir db/migrations postgres "$DATABASE_URL" up
 ```
 
 ### 📱 Frontend Setup
@@ -115,15 +134,14 @@ Paste after finishing project
 
 ## 🚀 Deployment
 * Flutter Web: Vercel / GitHub Pages
-* Backend: Railway / Render / Fly.io
-* CI/CD: GitHub Actions (Lint, Test, Docker Build/Push)
+* CI/CD: GitHub Actions (Lint, Test)
 
 ## 🙌 Team
 * Damir - LLM integration
-* Vladimir - Flutter app
-* Syoma - Flutter app + project deployment
-* Magomed - server API 
-* Pavel - Database + documentation
+* Vladimir - Flutter application
+* Semyon - Flutter application, CI/CD
+* Magomedgadzhi - server API
+* Pavel - Database, documentation
 
 ## 🔮 Future Plans
 - [ ] Add a local LLM support via Ollama API
@@ -151,39 +169,39 @@ Paste after finishing project
   Check the Flutter cross-platform application at [\application](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/application)
 - [X] Responsive UI design with custom widgets (1 point)
   You can find the most important widgets of our app at [application/lib/widgets](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/application/lib/widgets)
-- [ ] State management implementation (1 point)
+- [x] State management implementation (1 point)
 - [ ] Offline data persistence (1 point)
-- [ ] Unit and widget tests (1 point)
+- [x] Unit and widget tests (1 point)
 - [X] Support light and dark mode (1 point)
   You can switch themes on the login screen of our app (sun button). 
 
 #### DevOps & deployment (4 points)
-- [ ] Docker compose for all services (1 point)
-- [ ] CI/CD pipeline implementation (1 point)
-- [ ] Environment configuration management using config files (1 point)
+- [x] Docker compose for all services (1 point)
+- [x] CI/CD pipeline implementation (1 point)
+- [x] Environment configuration management using config files (1 point)
 - [ ] GitHub pages for the project (1 point)
 
 ### Non-Technical Requirements (10 points)
 #### Project management (4 points)
-- [ ] GitHub organization with well-maintained repository (1 point)
-- [ ] Regular commits and meaningful pull requests from all team members (1 point)
+- [x] GitHub organization with well-maintained repository (1 point)
+- [x] Regular commits and meaningful pull requests from all team members (1 point)
 - [ ] Project board (GitHub Projects) with task tracking (1 point)
-- [ ] Team member roles and responsibilities documentation (1 point)
+- [x] Team member roles and responsibilities documentation (1 point)
 
 #### Documentation (4 points)
-- [ ] Project overview and setup instructions (1 point)
+- [x] Project overview and setup instructions (1 point)
 - [ ] Screenshots and GIFs of key features (1 point)
-- [ ] API documentation (1 point)
-- [ ] Architecture diagrams and explanations (1 point)
+- [x] API documentation (1 point)
+- [x] Architecture diagrams and explanations (1 point)
 
 #### Code quality (2 points)
-- [ ] Consistent code style and formatting during CI/CD pipeline (1 point)
+- [x] Consistent code style and formatting during CI/CD pipeline (1 point)
 - [ ] Code review participation and resolution (1 point)
 
 ### Bonus Features (up to 10 points)
-- [ ] Localization for Russian (RU) and English (ENG) languages (2 points)
-- [ ] Good UI/UX design (up to 3 points)
-- [ ] Integration with external APIs (fitness trackers, health devices) (up to 5 points)
+- [x] Localization for Russian (RU) and English (ENG) languages (2 points)
+- [x] Good UI/UX design (up to 3 points)
+- [x] Integration with external APIs (fitness trackers, health devices) (up to 5 points)
 - [ ] Comprehensive error handling and user feedback (up to 2 points)
 - [ ] Advanced animations and transitions (up to 3 points)
 - [ ] Widget implementation for native mobile elements (up to 2 points)
