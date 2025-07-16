@@ -217,7 +217,8 @@ This diagram illustrates the real-time communication workflow from the moment a 
   * We added CI/CD pipeline, you can check its presence in actions and you can find workflows configs at [.github/workflows](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/51f3c92a45d297d9a9b29698b8670ec8ddf5153d/.github/workflows)
 - [x] Environment configuration management using config files (1 point)
   * .env file must be configured manually according to instructions in the [🛠️ Setup Instructions](#setup-instructions) section
-- [ ] GitHub pages for the project (1 point)
+- [x] GitHub pages for the project (1 point)
+  * You can check our app at [Github pages](https://sum25-gf-mental-health-companion.github.io/Mental-Health-Companion/)
 
 ### Non-Technical Requirements (10 points)
 #### Project management (4 points)
