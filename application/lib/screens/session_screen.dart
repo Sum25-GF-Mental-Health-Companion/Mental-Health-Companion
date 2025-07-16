@@ -8,7 +8,9 @@ import '../utils/constants.dart';
 import 'package:mental_health_companion/l10n/app_localizations.dart';
 
 class SessionScreen extends StatefulWidget {
-  const SessionScreen({super.key});
+  final bool testMode;
+
+  const SessionScreen({super.key, this.testMode = false});
 
   @override
   State<SessionScreen> createState() => _SessionScreenState();
@@ -24,7 +26,12 @@ class _SessionScreenState extends State<SessionScreen> {
   @override
   void initState() {
     super.initState();
-    _initSession();
+    if (widget.testMode) {
+      _sessionId = 1;
+      _startTimer();
+    } else {
+      _initSession();
+    }
   }
 
   Future<void> _initSession() async {
@@ -62,13 +69,15 @@ class _SessionScreenState extends State<SessionScreen> {
     if (_sessionId == null) return;
 
     setState(() {
-      _messages.add(Message(sessionId: _sessionId, sender: 'user', content: text));
+      _messages
+          .add(Message(sessionId: _sessionId, sender: 'user', content: text));
     });
 
     final response = await ApiService.sendMessage(text);
 
     setState(() {
-      _messages.add(Message(sessionId: _sessionId, sender: 'ai', content: response));
+      _messages
+          .add(Message(sessionId: _sessionId, sender: 'ai', content: response));
     });
   }
 
