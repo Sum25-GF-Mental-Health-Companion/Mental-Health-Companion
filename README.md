@@ -183,27 +183,30 @@ This diagram illustrates the real-time communication workflow from the moment a 
 ### Technical requirements (20 points)
 #### Backend development (8 points)
 - [X] Go-based backend (3 points)
-  Check the Go backend component at [backend/mental-health-api](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/backend/mental-health-api)
+  * Check the Go backend component at [backend/mental-health-api](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/backend/mental-health-api)
 - [X] RESTful API with Swagger documentation (1 point)
+  * You can see API ducomentataion and link to Swagger documentation above in the section "API documentation".
 - [X] PostgreSQL database with proper schema design (1 point)
-  Check the database files at [backend/mental-health-api/database](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/backend/mental-health-api/database)
+  * Check the database files at [backend/mental-health-api/database](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/backend/mental-health-api/database)
 - [X] JWT-based authentication and authorization (1 point)
-  Check the JWT-middleware at [backend/mental-health-api/middleware](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/backend/mental-health-api/middleware)
+  * Check the JWT-middleware at [backend/mental-health-api/middleware](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/backend/mental-health-api/middleware)
 - [X] Comprehensive unit and integration tests (1 point)
-  You can find unit tests for the backend functionality in the corresponding folders, e.g.:
-  [backend/mental-health-api/handlers](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/backend/mental-health-api/handlers)
-  [backend/mental-health-api/internal/llm](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/backend/mental-health-api/internal/llm)
+  * You can find unit tests for the backend functionality in the corresponding folders, e.g.:
+    * [backend/mental-health-api/handlers](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/backend/mental-health-api/handlers)
+    * [backend/mental-health-api/internal/llm](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/backend/mental-health-api/internal/llm)
 
 #### Frontend development (8 points)
 - [X] Flutter-based cross-platform application (mobile + web) (3 points)
-  Check the Flutter cross-platform application at [\application](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/application)
+  * Check the Flutter cross-platform application at [\application](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/application)
 - [X] Responsive UI design with custom widgets (1 point)
-  You can find the most important widgets of our app at [application/lib/widgets](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/application/lib/widgets)
+  * You can find the most important widgets of our app at [application/lib/widgets](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/application/lib/widgets)
 - [x] State management implementation (1 point)
+  * All screens in our app are stateful widgets and can be accessed at [application/lib/screens/](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/3cff30ce7828a5c26b770325e3b60a5d907e723e/application/lib/screens)
 - [ ] Offline data persistence (1 point)
 - [x] Unit and widget tests (1 point)
+  * You can find all the flutter tests at [application/tests](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/3cff30ce7828a5c26b770325e3b60a5d907e723e/application/test)
 - [X] Support light and dark mode (1 point)
-  You can switch themes on the login screen of our app (sun button). 
+  * You can switch themes on the login screen of our app (sun button).
 
 #### DevOps & deployment (4 points)
 - [x] Docker compose for all services (1 point)
