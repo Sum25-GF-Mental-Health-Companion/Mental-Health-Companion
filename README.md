@@ -15,8 +15,6 @@ A cross-platform virtual AI psychologist app tailored for students, providing ti
 
   🌙 Dark/light themes + RU/EN language switch
 
-  📶 Offline support with SQLite/Hive
-
 ## 🛠️ Setup Instructions
 ### Prerequisites
 
