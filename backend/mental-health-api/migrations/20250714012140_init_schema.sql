@@ -1,0 +1,35 @@
+-- +goose Up
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    email TEXT UNIQUE NOT NULL,
+    hashed_password TEXT NOT NULL,
+    student_status BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE TABLE sessions (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    started_at TIMESTAMPTZ DEFAULT now(),
+    ended_at TIMESTAMPTZ
+);
+
+CREATE TABLE messages (
+    id SERIAL PRIMARY KEY,
+    session_id INTEGER REFERENCES sessions(id),
+    sender TEXT NOT NULL,
+    content TEXT NOT NULL,
+    timestamp TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE TABLE summaries (
+    session_id INTEGER PRIMARY KEY REFERENCES sessions(id),
+    full_summary TEXT,
+    compressed_summary TEXT
+);
+
+-- +goose Down
+DROP TABLE IF EXISTS summaries;
+DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS sessions;
+DROP TABLE IF EXISTS users;

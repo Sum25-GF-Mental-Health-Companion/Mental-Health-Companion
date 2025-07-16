@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: mental-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: mentalhealth
+      POSTGRES_USER: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
