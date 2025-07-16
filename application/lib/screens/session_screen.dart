@@ -18,11 +18,22 @@ class _SessionScreenState extends State<SessionScreen> {
   late Timer _timer;
   int _secondsLeft = sessionDuration.inSeconds;
   bool sessionEnded = false;
+  int? _sessionId;
 
   @override
   void initState() {
     super.initState();
-    _startTimer();
+    _initSession();
+  }
+
+  Future<void> _initSession() async {
+    final sessionId = await ApiService.startSession();
+    if (sessionId != null) {
+      setState(() {
+        _sessionId = sessionId;
+      });
+      _startTimer();
+    }
   }
 
   void _startTimer() {
@@ -38,20 +49,25 @@ class _SessionScreenState extends State<SessionScreen> {
   Future<void> _endSession() async {
     _timer.cancel();
     setState(() => sessionEnded = true);
-    await ApiService.endSession(_messages);
+    if (_sessionId != null) {
+      await ApiService.endSession(_sessionId!, _messages);
+    }
     if (context.mounted) {
       Navigator.pushReplacementNamed(context, '/summary');
     }
   }
 
   Future<void> _sendMessage(String text) async {
+    if (_sessionId == null) return;
+
     setState(() {
-      _messages.add(Message(sender: 'user', content: text));
+      _messages.add(Message(sessionId: _sessionId, sender: 'user', content: text));
     });
 
     final response = await ApiService.sendMessage(text);
+
     setState(() {
-      _messages.add(Message(sender: 'ai', content: response));
+      _messages.add(Message(sessionId: _sessionId, sender: 'ai', content: response));
     });
   }
 
@@ -83,7 +99,7 @@ class _SessionScreenState extends State<SessionScreen> {
               },
             ),
           ),
-          if (!sessionEnded)
+          if (!sessionEnded && _sessionId != null)
             ChatInput(onSend: _sendMessage),
         ],
       ),

@@ -29,7 +29,7 @@ func NewLLMClient() *LLMClient {
 
 	return &LLMClient{
 		client: client,
-		apiKey: os.Getenv("PROXY_API_KEY"), // Используем API-ключ от proxyapi.ru
+		apiKey: os.Getenv("PROXY_API_KEY"), // Uses API key from proxyapi.ru
 	}
 }
 
@@ -44,17 +44,20 @@ type AnthropicRequest struct {
 }
 
 type AnthropicResponse struct {
-	Content string `json:"content"` // proxyapi.ru возвращает упрощённую структуру
+	Content []struct {
+		Type string `json:"type"`
+		Text string `json:"text"`
+	} `json:"content"` // proxyapi.ru returns simplified structure
 }
 
 func (c *LLMClient) SendMessage(ctx context.Context, messages []ChatMessage) (string, error) {
-	// Преобразуем в формат, который понимает proxyapi.ru
+	// Convert to format, which proxyapi.ru understands
 	var req AnthropicRequest
 	req.Model = "claude-3-sonnet-20240229"
 	req.MaxTokens = 3000
 	for _, msg := range messages {
 		if msg.Role == "system" {
-			req.System = msg.Content // ✅ передаём system отдельно
+			req.System = msg.Content // transfer system separately
 			continue
 		}
 
@@ -85,10 +88,12 @@ func (c *LLMClient) SendMessage(ctx context.Context, messages []ChatMessage) (st
 		return "", fmt.Errorf("proxy error: %s", r.Status())
 	}
 
-	if result.Content == "" {
+	if len(result.Content) == 0 {
 		return "", fmt.Errorf("empty response from Claude")
 	}
 
+	reply := result.Content[0].Text
+
 	fmt.Println("[LLM RESPONSE]", result.Content)
-	return result.Content, nil
+	return reply, nil
 }
