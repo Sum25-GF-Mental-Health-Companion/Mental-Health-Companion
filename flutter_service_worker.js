@@ -12,7 +12,7 @@ const RESOURCES = {"assets/AssetManifest.bin": "118e83131204ac1e1e3561445def6ef7
 "assets/NOTICES": "b1b8e770d2cda0767d64c11bd17ff9ac",
 "version.json": "72918bc624023212cd3112f57b2f9f9f",
 "manifest.json": "09a6331c44e6a5d4cf287ce29eae2998",
-"flutter_bootstrap.js": "e4b39ad4c49ff5bbab0ba12e113bcd6c",
+"flutter_bootstrap.js": "e8c544be44311b7e5b899555cf2fadbe",
 "canvaskit/skwasm.worker.js": "bfb704a6c714a75da9ef320991e88b03",
 "canvaskit/skwasm.wasm": "4051bfc27ba29bf420d17aa0c3a98bce",
 "canvaskit/canvaskit.wasm": "9251bb81ae8464c4df3b072f84aa969b",
