@@ -30,14 +30,14 @@ A cross-platform virtual AI psychologist app tailored for students, providing ti
 #### Initial Backend Configuration
 
 **Configure .env file**
-* PROXY_API_KEY - key obtained from _ProxyAPI_ website
-* PROXY_API_URL - URL to the needed model _(example: [Anthropic](https://api.proxyapi.ru/anthropic/v1))_
-* DB_HOST - DB hostname, set to ```postgres``` for simplicity
-* DB_PORT - port on which you would like to start PostgreSQL DB
-* DB_USER - PostgreSQL user, ```postgres``` by default
-* DB_PASSWORD - PostgreSQL DB password
-* DB_NAME - name of the PostgreSQL DB
-* DATABASE_URL - _optional variable_; URL to the PostgreSQL DB - set if you are going to run migrations
+* ```PROXY_API_KEY``` - key obtained from _ProxyAPI_ website
+* ```PROXY_API_URL``` - URL to the needed model _(example: [Anthropic](https://api.proxyapi.ru/anthropic/v1))_
+* ```DB_HOST``` - DB hostname, set to ```postgres``` for simplicity
+* ```DB_PORT``` - port on which you would like to start PostgreSQL DB
+* ```DB_USER``` - PostgreSQL user, ```postgres``` by default
+* ```DB_PASSWORD``` - PostgreSQL DB password
+* ```DB_NAME``` - name of the PostgreSQL DB
+* ```DATABASE_URL``` - _optional variable_; URL to the PostgreSQL DB - set if you are going to run migrations
 
 #### Server application startup
 
