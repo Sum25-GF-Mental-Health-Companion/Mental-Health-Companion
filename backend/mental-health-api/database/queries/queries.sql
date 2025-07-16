@@ -27,3 +27,7 @@ SET full_summary = EXCLUDED.full_summary,
 
 -- name: GetSessionsByUser :many
 SELECT * FROM sessions WHERE user_id = $1 ORDER BY started_at DESC;
+
+-- name: GetSummaryBySession :one
+SELECT * FROM summaries 
+WHERE session_id = $1 LIMIT 1;

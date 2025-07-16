@@ -22,7 +22,9 @@ CREATE TABLE messages (
 );
 
 CREATE TABLE summaries (
-    session_id INTEGER PRIMARY KEY REFERENCES sessions(id),
+    id SERIAL PRIMARY KEY,
+    session_id INTEGER NOT NULL REFERENCES sessions(id),
     full_summary TEXT,
-    compressed_summary TEXT
+    compressed_summary TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
 );

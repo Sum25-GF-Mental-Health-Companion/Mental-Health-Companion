@@ -5,7 +5,6 @@ import (
 	"log"
 	"mental-health-api/database/queries"
 	"mental-health-api/internal/llm"
-	"strconv"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -103,7 +102,7 @@ func SendMessage(c *fiber.Ctx) error {
 	}
 
 	reply, err := llmClient.SendMessage(c.Context(), []llm.ChatMessage{
-		{Role: "system", Content: "You are a caring psychologist. Help the student understand himself. Speak English."},
+		{Role: "system", Content: "Ты — заботливый психолог. Помоги студенту разобраться в себе."},
 		{Role: "user", Content: body.Text},
 	})
 	if err != nil {
@@ -135,6 +134,15 @@ func StartSession(c *fiber.Ctx) error {
 	return c.JSON(session)
 }
 
+// Updated helper function (assuming messages only have Content)
+func joinMessages(messages []queries.Message) string {
+	var result string
+	for _, m := range messages {
+		result += m.Content + "\n" // Just concatenate content
+	}
+	return result
+}
+
 func EndSession(c *fiber.Ctx) error {
 	var payload struct {
 		SessionID int32             `json:"session_id"`
@@ -147,26 +155,41 @@ func EndSession(c *fiber.Ctx) error {
 
 	q := queries.New(db)
 
-	err := q.EndSession(c.Context(), payload.SessionID)
+	conversation := joinMessages(payload.Messages)
+
+	// Generate summaries using the LLM
+	fullSummary, err := llmClient.SendMessage(c.Context(), []llm.ChatMessage{
+		{Role: "system", Content: "Summarize this therapy session in detail in Russian."},
+		{Role: "user", Content: joinMessages(payload.Messages)}, // Combine all messages into a single string
+	})
+
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "failed to end session"})
+		log.Println("LLM summary error:", err)
+		fullSummary = "Не удалось создать резюме сессии"
 	}
 
-	full := "Full summary"
-	compressed := "Summary of " + strconv.Itoa(len(payload.Messages)) + " messages"
+	compressedSummary, err := llmClient.SendMessage(c.Context(), []llm.ChatMessage{
+		{Role: "system", Content: "Ты — психолог. Создай очень краткое (1 предложение) резюме этой сессии на русском."},
+		{Role: "user", Content: conversation},
+	})
+	if err != nil {
+		log.Println("LLM compressed summary error:", err)
+		compressedSummary = "Краткое резюме недоступно"
+	}
 
+	// Save to database
 	err = q.SaveSummary(c.Context(), queries.SaveSummaryParams{
 		SessionID:         payload.SessionID,
-		FullSummary:       sql.NullString{String: full, Valid: true},
-		CompressedSummary: sql.NullString{String: compressed, Valid: true},
+		FullSummary:       sql.NullString{String: fullSummary, Valid: true},
+		CompressedSummary: sql.NullString{String: compressedSummary, Valid: true},
 	})
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "failed to save summary"})
 	}
 
 	return c.JSON(fiber.Map{
-		"full_summary":       full,
-		"compressed_summary": compressed,
+		"full_summary":       fullSummary,
+		"compressed_summary": compressedSummary,
 	})
 }
 
@@ -177,18 +200,39 @@ func GetSessionHistory(c *fiber.Ctx) error {
 
 	q := queries.New(db)
 
+	// 1. Get all sessions for the user
 	sessions, err := q.GetSessionsByUser(c.Context(), sql.NullInt32{Int32: userID, Valid: true})
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "failed to fetch sessions"})
 	}
 
-	var summaries []fiber.Map
-	for _, s := range sessions {
-		summaries = append(summaries, fiber.Map{
-			"session_id":         s.ID,
-			"compressed_summary": "Session on " + s.StartedAt.Time.Format("2006-01-02 15:04"),
+	// 2. For each session, get its summary (if exists)
+	var sessionSummaries []fiber.Map
+	for _, session := range sessions {
+		// Try to get summary - this assumes your summaries table has a session_id foreign key
+		summary, err := q.GetSummaryBySession(c.Context(), session.ID)
+		if err != nil {
+			// If no summary exists, create a basic one
+			log.Println("basic summary")
+			sessionSummaries = append(sessionSummaries, fiber.Map{
+				"session_id":         session.ID,
+				"started_at":         session.StartedAt.Time.Format("2006-01-02 15:04"),
+				"compressed_summary": "Сессия от " + session.StartedAt.Time.Format("2006-01-02"),
+				"full_summary":       "Детали сессии недоступны",
+			})
+			continue
+		}
+
+		// If summary exists, use it
+		sessionSummaries = append(sessionSummaries, fiber.Map{
+			"session_id":         session.ID,
+			"started_at":         session.StartedAt.Time.Format("2006-01-02 15:04"),
+			"compressed_summary": summary.CompressedSummary.String,
+			"full_summary":       summary.FullSummary.String,
 		})
 	}
 
-	return c.JSON(fiber.Map{"sessions": summaries})
+	log.Println(len(sessionSummaries))
+
+	return c.JSON(fiber.Map{"sessions": sessionSummaries})
 }
