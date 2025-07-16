@@ -66,20 +66,16 @@ flutter run -d chrome  # or your preferred device
 
     Base URL: http://localhost:8000
 
-Auth
-Method	Endpoint	Description
-POST	/auth/register	Register user
-POST	/auth/login	Login, returns JWT
-Session
-Method	Endpoint	Description
-GET	/session/start	Begin session, returns session ID
-POST	/session/end	Ends session, returns summary
-Messaging
-Method	Endpoint	Description
-POST	/message	Send user message, get AI response
-History
-Method	Endpoint	Description
-GET	/sessions	Get past session summaries
+*Auth
+  * POST	/auth/register - Register user
+  * POST	/auth/login	- Login, returns JWT
+* Session
+  * GET	/session/start - Begin session, returns session ID
+  * POST	/session/end - Ends session, returns summary
+* Messaging
+  * POST	/message - Send user message, get AI response
+* History
+  * GET	/sessions - Get past session summaries
 
 📘 Swagger docs available at http://localhost:8000/docs
 
@@ -115,8 +111,8 @@ Paste after finishing project
 * CI/CD: GitHub Actions (Lint, Test, Docker Build/Push)
 
 ## 🙌 Team
-Damir - LLM integration
-Vladimir - Flutter app
-Syoma - Flutter app + project deployment
-Magomed - server API 
-Pavel - Database + documentation
+* Damir - LLM integration
+* Vladimir - Flutter app
+* Syoma - Flutter app + project deployment
+* Magomed - server API 
+* Pavel - Database + documentation
