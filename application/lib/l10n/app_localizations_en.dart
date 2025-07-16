@@ -33,4 +33,37 @@ class AppLocalizationsEn extends AppLocalizations {
   String sessionX(Object number) {
     return 'Session $number';
   }
+
+  @override
+  String get changeLanguageTooltip => 'Change language';
+
+  @override
+  String get toggleThemeTooltip => 'Toggle theme';
+
+  @override
+  String get appTitle => 'Mental Health Companion';
+
+  @override
+  String get login => 'Login';
+
+  @override
+  String get signUp => 'Sign Up';
+
+  @override
+  String get registrationFailed => 'Registration Failed';
+
+  @override
+  String get invalidEmail => 'Invalid email';
+
+  @override
+  String get weakPassword => 'Password should contain at least 6 characters';
+
+  @override
+  String get signUpTitle => 'Sign Up';
+
+  @override
+  String get signUpButton => 'Sign Up';
+
+  @override
+  String get typeMessage => 'Type a message...';
 }

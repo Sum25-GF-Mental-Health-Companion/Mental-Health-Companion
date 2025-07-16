@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:mental_health_companion/l10n/app_localizations.dart';
 import 'screens/login_screen.dart';
 import 'screens/sign_up_screen.dart';
 import 'screens/session_screen.dart';
@@ -13,6 +14,14 @@ class MentalHealthApp extends StatefulWidget {
 }
 
 class _MentalHealthAppState extends State<MentalHealthApp> {
+  Locale _locale = const Locale('en');
+
+  void changeLanguage() {
+    setState(() {
+      _locale = _locale.languageCode == 'en' ? const Locale('ru') : const Locale('en');
+    });
+  }
+
   ThemeMode _themeMode = ThemeMode.system;
 
   void toggleTheme() {
@@ -29,19 +38,33 @@ class _MentalHealthAppState extends State<MentalHealthApp> {
       themeMode: _themeMode,
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
+      locale: _locale,
       supportedLocales: const [Locale('en'), Locale('ru')],
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
+        AppLocalizations.delegate,
       ],
-      initialRoute: '/',
-      routes: {
-        '/': (_) => StartScreen(toggleTheme: toggleTheme),
-        '/login': (_) => const LoginScreen(),
-        '/signup': (_) => const SignUpScreen(),
-        '/session': (_) => const SessionScreen(),
-        '/summary': (_) => const SummaryScreen(),
+      home: Builder(
+        builder: (context) => StartScreen(
+          toggleTheme: toggleTheme,
+          changeLanguage: changeLanguage,
+        ),
+      ),
+      onGenerateRoute: (settings) {
+        switch (settings.name) {
+          case '/login':
+            return MaterialPageRoute(builder: (_) => const LoginScreen());
+          case '/signup':
+            return MaterialPageRoute(builder: (_) => const SignUpScreen());
+          case '/session':
+            return MaterialPageRoute(builder: (_) => const SessionScreen());
+          case '/summary':
+            return MaterialPageRoute(builder: (_) => const SummaryScreen());
+          default:
+            return null;
+        }
       },
     );
   }
@@ -49,36 +72,46 @@ class _MentalHealthAppState extends State<MentalHealthApp> {
 
 class StartScreen extends StatelessWidget {
   final VoidCallback toggleTheme;
+  final VoidCallback changeLanguage;
 
-  const StartScreen({super.key, required this.toggleTheme});
+  const StartScreen({
+    super.key,
+    required this.toggleTheme,
+    required this.changeLanguage,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mental Health Companion'),
+        title: Text(loc.appTitle),
       ),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
+              icon: const Icon(Icons.language),
+              onPressed: changeLanguage,
+              tooltip: loc.changeLanguageTooltip,
+            ),
+            IconButton(
               icon: const Icon(Icons.brightness_6),
               onPressed: toggleTheme,
-              tooltip: 'Toggle Theme',
+              tooltip: loc.toggleThemeTooltip,
             ),
             const SizedBox(height: 24),
             SizedBox(
               width: 200,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black,
-                  backgroundColor: Colors.green
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.deepPurpleAccent,
                 ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/login');
-                },
-                child: const Text('Login'),
+                onPressed: () => Navigator.pushNamed(context, '/login'),
+                child: Text(loc.login),
               ),
             ),
             const SizedBox(height: 16),
@@ -86,15 +119,13 @@ class StartScreen extends StatelessWidget {
               width: 200,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black,
-                  backgroundColor: Colors.green
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.deepPurpleAccent,
                 ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/signup');
-                },
-                child: const Text('Sign Up'),
+                onPressed: () => Navigator.pushNamed(context, '/signup'),
+                child: Text(loc.signUp),
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -5,6 +5,7 @@ import '../services/api_service.dart';
 import '../widgets/chat_input.dart';
 import '../widgets/message_bubble.dart';
 import '../utils/constants.dart';
+import 'package:mental_health_companion/l10n/app_localizations.dart';
 
 class SessionScreen extends StatefulWidget {
   const SessionScreen({super.key});
@@ -79,11 +80,12 @@ class _SessionScreenState extends State<SessionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     final min = _secondsLeft ~/ 60;
     final sec = (_secondsLeft % 60).toString().padLeft(2, '0');
 
     return Scaffold(
-      appBar: AppBar(title: Text('Session — $min:$sec')),
+      appBar: AppBar(title: Text('${loc.sessionTitle} — $min:$sec')),
       body: Column(
         children: [
           Expanded(

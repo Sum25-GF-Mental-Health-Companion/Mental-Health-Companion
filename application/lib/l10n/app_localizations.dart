@@ -145,6 +145,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Session {number}'**
   String sessionX(Object number);
+
+  /// No description provided for @changeLanguageTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Change language'**
+  String get changeLanguageTooltip;
+
+  /// No description provided for @toggleThemeTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle theme'**
+  String get toggleThemeTooltip;
+
+  /// No description provided for @appTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mental Health Companion'**
+  String get appTitle;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// No description provided for @signUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get signUp;
+
+  /// No description provided for @registrationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration Failed'**
+  String get registrationFailed;
+
+  /// No description provided for @invalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email'**
+  String get invalidEmail;
+
+  /// No description provided for @weakPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password should contain at least 6 characters'**
+  String get weakPassword;
+
+  /// No description provided for @signUpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get signUpTitle;
+
+  /// No description provided for @signUpButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get signUpButton;
+
+  /// No description provided for @typeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a message...'**
+  String get typeMessage;
 }
 
 class _AppLocalizationsDelegate
