@@ -97,7 +97,8 @@ Base URL: http://localhost:8080 (/app)
 📘 Swagger docs available at http://localhost:8080/docs/docs
 
 ## 🧱 Architecture
-### Static view diagram
+
+### Static View Diagram
 You can access the diagram at [docs/architecture/MHC_static_view](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/blob/329de58270d14e2d5dcf010f64890b04010dd629/docs/architecture/MHC_static_view.png)
 
 #### Diagram Explanation:
@@ -116,6 +117,38 @@ You can access the diagram at [docs/architecture/MHC_static_view](https://github
 * External APIs:
   * The LLMClient can connect to external large language model APIs such as Claude or OpenAI, to generate responses and session summaries based on recent user messages.
  
+### Dynamic View Diagram
+You can access the diagram at [docs/architecture/MHC_dynamic_view](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/blob/4a9664571118bb356634a3e6c5191a8430acb6fc/docs/architecture/MHC_dynamic_view.png)
+
+#### Diagram Explanation
+This diagram illustrates the real-time communication workflow from the moment a user sends a message until the AI responds.
+
+1) User Interaction:
+   * The user types a message and presses "Send" in the ChatInput widget of the Flutter frontend.
+   
+2) Frontend → Backend Request:
+   * A POST /message request is sent to the MessageController (Go backend) with the session_id and the user's message.
+    
+3) Backend Processing – Save & Context Building:
+   * The message is saved to the messages table in PostgreSQL with sender='user'.
+   * All previous messages from the current session are fetched to maintain contextual continuity.
+   * Additionally, the backend retrieves the last 20 summary records (from previous sessions) to give the AI broader conversation history.
+
+4) LLM Interaction:
+   * The LLMClient composes a prompt that includes:
+     * Full session context
+     * Compressed summaries
+     * The latest user message
+   * It sends this prompt to the Calude.
+
+5) AI Response Handling:
+   * Claude responds with a generated reply.
+   * The backend logs this response in the messages table with sender='ai'.
+
+6) Response Delivery:
+   * The AI's reply is sent back to the frontend.
+   * The Flutter UI displays the AI response in the chat.
+ 
 ## ⚙️ Tech Stack
 
 * Flutter + Riverpod
@@ -124,12 +157,9 @@ You can access the diagram at [docs/architecture/MHC_static_view](https://github
 * OpenAI API / Claude API
 * Docker + GitHub Actions (CI/CD)
 
-## 🗂️ Folder Structure
-Paste after finishing project
-
 ## 🧠 LLM Context Strategy
 
-* Fetches summaries of last 50sessions 
+* Fetches summaries of last 50 sessions 
 * Sends to LLM with user message for reply + summary generation
 
 ## 🚀 Deployment
