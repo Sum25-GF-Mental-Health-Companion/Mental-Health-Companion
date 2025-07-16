@@ -1,15 +1,21 @@
 package handlers
 
 import (
+<<<<<<< HEAD
 	"mental-health-api/models"
 	"strconv"
 
 	"time"
+=======
+	"mental-health-api/internal/llm"
+>>>>>>> b00b55ae22b3329db506b9652771c063bab2b00b
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
 )
+
+var llmClient = llm.NewLLMClient()
 
 func Register(c *fiber.Ctx) error {
 	var input struct {
@@ -66,13 +72,30 @@ func StartSession(c *fiber.Ctx) error {
 }
 
 func SendMessage(c *fiber.Ctx) error {
-	var msg models.Message
-	if err := c.BodyParser(&msg); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid input"})
+	type Request struct {
+		Text string `json:"text"`
 	}
 
-	reply := "Simulated AI response to: " + msg.Content
-	return c.JSON(fiber.Map{"reply": reply})
+	var body Request
+	if err := c.BodyParser(&body); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid request",
+		})
+	}
+
+	reply, err := llmClient.SendMessage(c.Context(), []llm.ChatMessage{
+		{Role: "system", Content: "Ты — заботливый психолог. Помоги студенту разобраться в себе."},
+		{Role: "user", Content: body.Text},
+	})
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "LLM error: " + err.Error(),
+		})
+	}
+
+	return c.JSON(fiber.Map{
+		"response": reply,
+	})
 }
 
 func EndSession(c *fiber.Ctx) error {
