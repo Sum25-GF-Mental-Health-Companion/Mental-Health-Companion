@@ -66,7 +66,7 @@ flutter run -d chrome  # or your preferred device
 
     Base URL: http://localhost:8000
 
-*Auth
+* Auth
   * POST	/auth/register - Register user
   * POST	/auth/login	- Login, returns JWT
 * Session
