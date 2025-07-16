@@ -19,6 +19,10 @@ type LLMClient struct {
 	apiKey string
 }
 
+type LLM interface {
+	SendMessage(ctx context.Context, messages []ChatMessage) (string, error)
+}
+
 func NewLLMClient() *LLMClient {
 	_ = godotenv.Load()
 	fmt.Println("✅ PROXY_API_URL =", os.Getenv("PROXY_API_URL"))

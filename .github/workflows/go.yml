@@ -1,0 +1,61 @@
+name: Go API CI
+
+on:
+  push:
+    branches: [ "main", "server-and-app", "server-and-app-2" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    env:
+      PROXY_API_KEY: ${{ secrets.PROXY_API_KEY }}
+      PROXY_API_URL: ${{ secrets.PROXY_API_URL }}
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+    defaults:
+      run:
+        working-directory: backend/mental-health-api
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.24'
+
+    - name: Cache Go modules
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cache/go-build
+          ~/go/pkg/mod
+        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-go-
+
+    - name: Install dependencies
+      run: go mod download
+
+    - name: Lint go vet
+      run: go vet ./...
+
+    - name: Lint gofmt check
+      run: |
+        if [ -n "$(gofmt -l .)" ]; then
+          echo "The following files are not formatted properly:"
+          gofmt -l .
+          exit 1
+        fi
+
+    - name: Build
+      run: go build -v ./...
+
+    - name: Run tests
+      run: go test -v ./...
