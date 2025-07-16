@@ -7,5 +7,16 @@
   "loginFailed": "Login failed",
   "sessionTitle": "Session",
   "summaryTitle": "Session Summaries",
-  "sessionX": "Session {number}"
+  "sessionX": "Session {number}",
+  "changeLanguageTooltip": "Change language",
+  "toggleThemeTooltip": "Toggle theme",
+  "appTitle": "Mental Health Companion",
+  "login": "Login",
+  "signUp": "Sign Up",
+  "registrationFailed": "Registration Failed",
+  "invalidEmail": "Invalid email",
+  "weakPassword": "Password should contain at least 6 characters",
+  "signUpTitle": "Sign Up",
+  "signUpButton": "Sign Up",
+  "typeMessage": "Type a message..."
 }

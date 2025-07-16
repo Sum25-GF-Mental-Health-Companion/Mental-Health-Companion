@@ -23,7 +23,7 @@ func NewMessageHandler(llmClient *llm.LLMClient) http.HandlerFunc {
 		}
 
 		reply, err := llmClient.SendMessage(r.Context(), []llm.ChatMessage{
-			{Role: "system", Content: "Ты — заботливый психолог, помоги студенту."},
+			{Role: "system", Content: "You are a caring psychologist, help the student. Speak English."},
 			{Role: "user", Content: req.Text},
 		})
 		if err != nil {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
+import 'package:mental_health_companion/l10n/app_localizations.dart';
 
 class SummaryScreen extends StatefulWidget {
   const SummaryScreen({super.key});
@@ -24,15 +25,17 @@ class _SummaryScreenState extends State<SummaryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Session Summaries')),
+      appBar: AppBar(title: Text(loc.summaryTitle)),
       body: summaries.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
               itemCount: summaries.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text('Session ${index + 1}'),
+                  title: Text(loc.sessionX(index + 1)),
                   subtitle: Text(summaries[index]),
                 );
               },

@@ -103,7 +103,7 @@ func SendMessage(c *fiber.Ctx) error {
 	}
 
 	reply, err := llmClient.SendMessage(c.Context(), []llm.ChatMessage{
-		{Role: "system", Content: "Ты — заботливый психолог. Помоги студенту разобраться в себе."},
+		{Role: "system", Content: "You are a caring psychologist. Help the student understand himself. Speak English."},
 		{Role: "user", Content: body.Text},
 	})
 	if err != nil {
