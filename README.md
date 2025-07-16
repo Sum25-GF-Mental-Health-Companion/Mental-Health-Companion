@@ -72,12 +72,13 @@ flutter run -d chrome  # or your preferred device
 
 ## 🖼️ Features in Screenshots
 #### Login Screen
-
+[Login screen](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/blob/fba15b19971996254ad857ce1c1c968cbef066d5/docs/screenshots/login.jpg)
 #### Chat with AI
-
-#### Timer Widget
-
+[Chat with AI](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/blob/fba15b19971996254ad857ce1c1c968cbef066d5/docs/screenshots/AI%20chat.jpg)
+#### Main Screen
+[Main App Screen](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/blob/fba15b19971996254ad857ce1c1c968cbef066d5/docs/screenshots/main%20screen.jpg)
 #### Session History
+[Session History](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/blob/fba15b19971996254ad857ce1c1c968cbef066d5/docs/screenshots/Session%20history.jpg)
 
 ## 📡 API Documentation
 
