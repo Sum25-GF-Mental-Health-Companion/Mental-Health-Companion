@@ -134,3 +134,8 @@ Paste after finishing project
 * Semyon - Flutter application, CI/CD
 * Magomedgadzhi - server API
 * Pavel - Database, documentation
+
+## 🔮 Future Plans
+- [ ] Add a local LLM support via Ollama API
+- [ ] Introduce notifications about an everyday session
+- [ ] Enhance the communication wrapping a user message
