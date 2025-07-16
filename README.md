@@ -197,26 +197,26 @@ This diagram illustrates the real-time communication workflow from the moment a 
 
 #### Frontend development (8 points)
 - [X] Flutter-based cross-platform application (mobile + web) (3 points)
-  * Check the Flutter cross-platform application at [\application](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/application)
+  * Check the Flutter cross-platform application at the [application](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/application) directory
 - [X] Responsive UI design with custom widgets (1 point)
-  * You can find the most important widgets of our app at [application/lib/widgets](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/application/lib/widgets)
+  * You can find the most important widgets of our app at the [application/lib/widgets](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/d296742e5d7aa6e4e97bb8372a88ae15188cedd4/application/lib/widgets) directory
 - [x] State management implementation (1 point)
-  * All screens in our app are stateful widgets and can be accessed at [application/lib/screens/](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/3cff30ce7828a5c26b770325e3b60a5d907e723e/application/lib/screens)
+  * All screens in our app are stateful widgets and can be accessed at the [application/lib/screens/](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/3cff30ce7828a5c26b770325e3b60a5d907e723e/application/lib/screens) directory
 - [ ] Offline data persistence (1 point)
 - [x] Unit and widget tests (1 point)
-  * You can find all the flutter tests at [application/tests](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/3cff30ce7828a5c26b770325e3b60a5d907e723e/application/test)
+  * You can find all the flutter tests at the [application/tests](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/3cff30ce7828a5c26b770325e3b60a5d907e723e/application/test) directory
 - [X] Support light and dark mode (1 point)
   * You can switch themes on the login screen of our app (sun button).
 
 #### DevOps & deployment (4 points)
 - [x] Docker compose for all services (1 point)
-  * We have Docker compose for all backend services. See our docker files at:
+  * We have Docker compose for all backend services. Links to Dockerfile and docker-compose.yml:
     * [backend/mental-health-api/Dockerfile](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/blob/3d10ae5913dcc7de7d238fa61467f5997138a4ec/backend/mental-health-api/Dockerfile)
     * [backend/mental-health-api/docker-compose.yml](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/blob/3d10ae5913dcc7de7d238fa61467f5997138a4ec/backend/mental-health-api/docker-compose.yml)
 - [x] CI/CD pipeline implementation (1 point)
   * We added CI/CD pipeline, you can check its presence in actions and you can find workflows configs at [.github/workflows](https://github.com/Sum25-GF-Mental-Health-Companion/Mental-Health-Companion/tree/51f3c92a45d297d9a9b29698b8670ec8ddf5153d/.github/workflows)
 - [x] Environment configuration management using config files (1 point)
-  * You cannot find .env file in this repository, because we added it to secrets.
+  * .env file must be configured manually according to instructions in the [🛠️ Setup Instructions](#setup-instructions) section
 - [ ] GitHub pages for the project (1 point)
 
 ### Non-Technical Requirements (10 points)
@@ -232,7 +232,7 @@ This diagram illustrates the real-time communication workflow from the moment a 
 
 #### Documentation (4 points)
 - [x] Project overview and setup instructions (1 point)
-  * You can find overview and setup instructions in the sections "Overview" and "Setup instructions" above.
+  * You can find overview and setup instructions in the [Overview](#overview) and [🛠️ Setup Instructions](#setup-instructions) sections.
 - [x] Screenshots and GIFs of key features (1 point)
   * You can find link to screenshots of most relevant screens and features in the section "Features in Screenshots" above
   * Instructions can be found in the [🛠️ Setup Instructions](#setup-instructions) section
