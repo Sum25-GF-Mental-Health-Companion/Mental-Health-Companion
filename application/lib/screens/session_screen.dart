@@ -5,6 +5,7 @@ import '../services/api_service.dart';
 import '../widgets/chat_input.dart';
 import '../widgets/message_bubble.dart';
 import '../utils/constants.dart';
+import 'package:mental_health_companion/l10n/app_localizations.dart';
 
 class SessionScreen extends StatefulWidget {
   const SessionScreen({super.key});
@@ -18,11 +19,22 @@ class _SessionScreenState extends State<SessionScreen> {
   late Timer _timer;
   int _secondsLeft = sessionDuration.inSeconds;
   bool sessionEnded = false;
+  int? _sessionId;
 
   @override
   void initState() {
     super.initState();
-    _startTimer();
+    _initSession();
+  }
+
+  Future<void> _initSession() async {
+    final sessionId = await ApiService.startSession();
+    if (sessionId != null) {
+      setState(() {
+        _sessionId = sessionId;
+      });
+      _startTimer();
+    }
   }
 
   void _startTimer() {
@@ -38,20 +50,25 @@ class _SessionScreenState extends State<SessionScreen> {
   Future<void> _endSession() async {
     _timer.cancel();
     setState(() => sessionEnded = true);
-    await ApiService.endSession(_messages);
+    if (_sessionId != null) {
+      await ApiService.endSession(_sessionId!, _messages);
+    }
     if (context.mounted) {
       Navigator.pushReplacementNamed(context, '/summary');
     }
   }
 
   Future<void> _sendMessage(String text) async {
+    if (_sessionId == null) return;
+
     setState(() {
-      _messages.add(Message(sender: 'user', content: text));
+      _messages.add(Message(sessionId: _sessionId, sender: 'user', content: text));
     });
 
     final response = await ApiService.sendMessage(text);
+
     setState(() {
-      _messages.add(Message(sender: 'ai', content: response));
+      _messages.add(Message(sessionId: _sessionId, sender: 'ai', content: response));
     });
   }
 
@@ -63,11 +80,12 @@ class _SessionScreenState extends State<SessionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     final min = _secondsLeft ~/ 60;
     final sec = (_secondsLeft % 60).toString().padLeft(2, '0');
 
     return Scaffold(
-      appBar: AppBar(title: Text('Session — $min:$sec')),
+      appBar: AppBar(title: Text('${loc.sessionTitle} — $min:$sec')),
       body: Column(
         children: [
           Expanded(
@@ -83,7 +101,7 @@ class _SessionScreenState extends State<SessionScreen> {
               },
             ),
           ),
-          if (!sessionEnded)
+          if (!sessionEnded && _sessionId != null)
             ChatInput(onSend: _sendMessage),
         ],
       ),

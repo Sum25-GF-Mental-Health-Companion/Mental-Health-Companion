@@ -14,7 +14,7 @@ type MessageResponse struct {
 	Response string `json:"response"`
 }
 
-func NewMessageHandler(llmClient *llm.LLMClient) http.HandlerFunc {
+func NewMessageHandler(llmClient llm.LLM) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req MessageRequest
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
@@ -23,7 +23,7 @@ func NewMessageHandler(llmClient *llm.LLMClient) http.HandlerFunc {
 		}
 
 		reply, err := llmClient.SendMessage(r.Context(), []llm.ChatMessage{
-			{Role: "system", Content: "Ты — заботливый психолог, помоги студенту."},
+			{Role: "system", Content: "You are a caring psychologist, help the student. Speak student's language."},
 			{Role: "user", Content: req.Text},
 		})
 		if err != nil {

@@ -1,0 +1,22 @@
+{
+  "@@locale": "ru",
+  "loginTitle": "Вход для студентов",
+  "email": "Почта",
+  "password": "Пароль",
+  "loginButton": "Войти",
+  "loginFailed": "Ошибка входа",
+  "sessionTitle": "Сессия",
+  "summaryTitle": "Итоги сессий",
+  "sessionX": "Сессия {number}",
+  "changeLanguageTooltip": "Сменить язык",
+  "toggleThemeTooltip": "Сменить тему",
+  "appTitle": "Спутник психического здоровья",
+  "login": "Вход",
+  "signUp": "Регистрация",
+  "registrationFailed": "Ошибка регистрации",
+  "invalidEmail": "Неверный адрес электронной почты",
+  "weakPassword": "Пароль должен содержать не менее 6 символов",
+  "signUpTitle": "Регистрация",
+  "signUpButton": "Зарегистрироваться",
+  "typeMessage": "Введите сообщение..."
+}

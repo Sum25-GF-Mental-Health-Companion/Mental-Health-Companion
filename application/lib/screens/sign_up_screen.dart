@@ -1,35 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:mental_health_companion/l10n/app_localizations.dart';
+import 'package:mental_health_companion/utils/validators.dart';
 import '../services/auth_service.dart';
+import 'package:mental_health_companion/l10n/app_localizations.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool isLoading = false;
 
-  Future<void> _login() async {
+  Future<void> _register() async {
     final loc = AppLocalizations.of(context)!;
+    String email = emailController.text.trim();
+    String password = passwordController.text;
+
+    if (validateEmail(email) != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(loc.invalidEmail)),
+      );
+      return;
+    }
+
+    if (validatePassword(password) != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(loc.weakPassword)),
+      );
+      return;
+    }
+
     setState(() => isLoading = true);
-
-    final success = await AuthService.login(
-      emailController.text.trim(),
-      passwordController.text,
-    );
-
+    final success = await AuthService.register(email, password);
     setState(() => isLoading = false);
 
     if (success && context.mounted) {
       Navigator.pushReplacementNamed(context, '/session');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(loc.loginFailed)),
+        SnackBar(content: Text(loc.registrationFailed)),
       );
     }
   }
@@ -39,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: Text(loc.loginTitle)),
+      appBar: AppBar(title: Text(loc.signUpTitle)),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -57,14 +70,14 @@ class _LoginScreenState extends State<LoginScreen> {
             isLoading
                 ? const CircularProgressIndicator()
                 : SizedBox(
-                  width: 200,
+                    width: 200,
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
                           backgroundColor: Colors.deepPurpleAccent,
                         ),
-                        onPressed: _login,
-                        child: Text(loc.loginButton),
+                        onPressed: _register,
+                        child: Text(loc.signUpButton),
                       ),
                   ),
           ],

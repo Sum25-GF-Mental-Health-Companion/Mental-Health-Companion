@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mental_health_companion/l10n/app_localizations.dart';
 
 class ChatInput extends StatefulWidget {
   final Function(String) onSend;
@@ -21,6 +22,8 @@ class _ChatInputState extends State<ChatInput> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(8),
@@ -30,7 +33,9 @@ class _ChatInputState extends State<ChatInput> {
               child: TextField(
                 controller: controller,
                 onSubmitted: (_) => _submit(),
-                decoration: const InputDecoration(hintText: 'Type a message...'),
+                decoration: InputDecoration(
+                  hintText: loc.typeMessage,
+                ),
               ),
             ),
             IconButton(
