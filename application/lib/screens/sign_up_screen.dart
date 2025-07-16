@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mental_health_companion/utils/validators.dart';
 import '../services/auth_service.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -14,10 +15,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool isLoading = false;
 
   Future<void> _register() async {
+    String email = emailController.text.trim();
+    String password = passwordController.text;
+
+    if (validateEmail(email) != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Invalid email')),
+      );
+      return;
+    }
+
+    if (validatePassword(password) != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Password should contain at least 6 symbols')),
+      );
+      return;
+    }
+
     setState(() => isLoading = true);
     final success = await AuthService.register(
-      emailController.text.trim(),
-      passwordController.text,
+      email,
+      password,
     );
     setState(() => isLoading = false);
 
@@ -51,8 +69,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
             isLoading
                 ? const CircularProgressIndicator()
                 : ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.black,
+                      backgroundColor: Colors.green
+                    ),
                     onPressed: _register,
-                    child: const Text('Register'),
+                    child: const Text('Sign Up'),
                   ),
           ],
         ),

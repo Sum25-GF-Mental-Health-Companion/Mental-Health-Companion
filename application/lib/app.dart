@@ -5,13 +5,28 @@ import 'screens/sign_up_screen.dart';
 import 'screens/session_screen.dart';
 import 'screens/summary_screen.dart';
 
-class MentalHealthApp extends StatelessWidget {
+class MentalHealthApp extends StatefulWidget {
   const MentalHealthApp({super.key});
+
+  @override
+  State<MentalHealthApp> createState() => _MentalHealthAppState();
+}
+
+class _MentalHealthAppState extends State<MentalHealthApp> {
+  ThemeMode _themeMode = ThemeMode.system;
+
+  void toggleTheme() {
+    setState(() {
+      _themeMode =
+          _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Mental Health Companion',
+      themeMode: _themeMode,
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       supportedLocales: const [Locale('en'), Locale('ru')],
@@ -22,7 +37,7 @@ class MentalHealthApp extends StatelessWidget {
       ],
       initialRoute: '/',
       routes: {
-        '/': (_) => const StartScreen(),
+        '/': (_) => StartScreen(toggleTheme: toggleTheme),
         '/login': (_) => const LoginScreen(),
         '/signup': (_) => const SignUpScreen(),
         '/session': (_) => const SessionScreen(),
@@ -33,19 +48,33 @@ class MentalHealthApp extends StatelessWidget {
 }
 
 class StartScreen extends StatelessWidget {
-  const StartScreen({super.key});
+  final VoidCallback toggleTheme;
+
+  const StartScreen({super.key, required this.toggleTheme});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Mental Health Companion')),
+      appBar: AppBar(
+        title: const Text('Mental Health Companion'),
+      ),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            IconButton(
+              icon: const Icon(Icons.brightness_6),
+              onPressed: toggleTheme,
+              tooltip: 'Toggle Theme',
+            ),
+            const SizedBox(height: 24),
             SizedBox(
-              width: 200, // 👈 одинаковая ширина для обеих кнопок
+              width: 200,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.black,
+                  backgroundColor: Colors.green
+                ),
                 onPressed: () {
                   Navigator.pushNamed(context, '/login');
                 },
@@ -56,12 +85,16 @@ class StartScreen extends StatelessWidget {
             SizedBox(
               width: 200,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.black,
+                  backgroundColor: Colors.green
+                ),
                 onPressed: () {
                   Navigator.pushNamed(context, '/signup');
                 },
                 child: const Text('Sign Up'),
               ),
-            ),
+            )
           ],
         ),
       ),

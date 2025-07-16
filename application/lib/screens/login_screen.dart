@@ -51,6 +51,10 @@ class _LoginScreenState extends State<LoginScreen> {
             isLoading
                 ? const CircularProgressIndicator()
                 : ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.black,
+                      backgroundColor: Colors.green
+                    ),
                     onPressed: _login,
                     child: const Text('Login'),
                   ),
